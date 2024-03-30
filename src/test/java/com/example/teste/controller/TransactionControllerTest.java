@@ -2,13 +2,17 @@ package com.example.teste.controller;
 
 import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
 import com.example.teste.dto.response.ClienteTransacaoResponseDTO;
+import com.example.teste.exception.ApiErrorResponse;
+import com.example.teste.exception.ApiExceptionHandler;
 import com.example.teste.service.TransacaoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(TransacaoController.class)
+@WebMvcTest({TransacaoController.class, ApiErrorResponse.class, ApiExceptionHandler.class})
 @AutoConfigureMockMvc
 class TransactionControllerTest {
 
@@ -57,5 +61,23 @@ class TransactionControllerTest {
                 .content(mapper.writeValueAsString(requestDTO)))
             .andExpect(MockMvcResultMatchers.status().isOk());
    }
+
+    @ParameterizedTest
+    @CsvSource(
+        {"-2, c, desc",
+        "2, cd, desc",
+        "2, c, verylongedescription"})
+    void criarTransacao_comPayloadInCorreto_deveRetornar422(Integer valor, String tipo, String descricao) throws Exception {
+        requestDTO = new ClienteTransacaoRequestDTO(valor, tipo, descricao);
+        responseDTO = new ClienteTransacaoResponseDTO(200, 200);
+
+        when(service.criarTransacao(requestDTO)).thenReturn(responseDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/clientes/{id}/transacoes", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(requestDTO)))
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
 
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class TransacaoService {
 
     public ClienteTransacaoResponseDTO criarTransacao(final ClienteTransacaoRequestDTO requestDTO) {
-        return new ClienteTransacaoResponseDTO(requestDTO.valor(), requestDTO.valor());
+        return new ClienteTransacaoResponseDTO(requestDTO.amount(), requestDTO.amount());
     }
 
 }
