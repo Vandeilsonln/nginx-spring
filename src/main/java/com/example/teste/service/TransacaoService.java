@@ -2,13 +2,15 @@ package com.example.teste.service;
 
 import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
 import com.example.teste.dto.response.ClienteTransacaoResponseDTO;
-import org.springframework.context.annotation.Configuration;
+import com.example.teste.entity.ClienteEntity;
+import com.example.teste.entity.TransacaoEntity;
 
-@Configuration
-public class TransacaoService {
+import java.util.List;
 
-    public ClienteTransacaoResponseDTO criarTransacao(final ClienteTransacaoRequestDTO requestDTO) {
-        return new ClienteTransacaoResponseDTO(requestDTO.amount(), requestDTO.amount());
-    }
+public interface TransacaoService {
+
+    ClienteTransacaoResponseDTO criarTransacao(final String id, final ClienteTransacaoRequestDTO requestDTO);
+
+    List<TransacaoEntity> todosClientes();
 
 }

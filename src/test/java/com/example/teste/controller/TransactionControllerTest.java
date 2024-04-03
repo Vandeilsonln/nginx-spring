@@ -4,14 +4,13 @@ import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
 import com.example.teste.dto.response.ClienteTransacaoResponseDTO;
 import com.example.teste.exception.ApiErrorResponse;
 import com.example.teste.exception.ApiExceptionHandler;
-import com.example.teste.service.TransacaoService;
+import com.example.teste.service.TransacaoServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ class TransactionControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    TransacaoService service;
+    TransacaoServiceImpl service;
 
     @InjectMocks
     TransacaoController controller;
@@ -54,7 +53,7 @@ class TransactionControllerTest {
         requestDTO = new ClienteTransacaoRequestDTO(200, "c", "descrição");
         responseDTO = new ClienteTransacaoResponseDTO(200, 200);
 
-        when(service.criarTransacao(requestDTO)).thenReturn(responseDTO);
+        when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/clientes/{id}/transacoes", "1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -71,7 +70,7 @@ class TransactionControllerTest {
         requestDTO = new ClienteTransacaoRequestDTO(valor, tipo, descricao);
         responseDTO = new ClienteTransacaoResponseDTO(200, 200);
 
-        when(service.criarTransacao(requestDTO)).thenReturn(responseDTO);
+        when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/clientes/{id}/transacoes", "1")
                 .contentType(MediaType.APPLICATION_JSON)

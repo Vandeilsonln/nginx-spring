@@ -20,3 +20,16 @@ VALUES
     ('Bob', 1000000, 0),
     ('Emily', 10000000, 0),
     ('Michael', 500000, 0);
+
+INSERT INTO transacoes(cliente_id, valor, tipo, realizada_em)
+VALUES
+    (1, 100, 'Compra', CURRENT_TIMESTAMP),
+    (2, 150, 'Venda', CURRENT_TIMESTAMP),
+    (3, 200, 'Compra', CURRENT_TIMESTAMP),
+    (4, 250, 'Venda', CURRENT_TIMESTAMP),
+    (5, 300, 'Compra', CURRENT_TIMESTAMP),
+    (1, 200, 'Venda', CURRENT_TIMESTAMP),
+    (2, 250, 'Compra', CURRENT_TIMESTAMP),
+    (3, 300, 'Venda', CURRENT_TIMESTAMP),
+    (4, 350, 'Compra', CURRENT_TIMESTAMP),
+    (5, 400, 'Venda', CURRENT_TIMESTAMP);

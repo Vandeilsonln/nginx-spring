@@ -64,8 +64,8 @@ services:
         deploy:
             resources:
                 limits:
-                    cpus: "0.05"
-                    memory: "90MB"
+                    cpus: "0.15"
+                    memory: "190MB"
 
 networks:
     my-network:
