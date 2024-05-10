@@ -14,7 +14,7 @@ public record ClienteTransacaoRequestDTO(
 
     @JsonProperty("tipo")
     @NotNull(message = "O tipo não pode ser nulo")
-    @Pattern(regexp = "[cd]", message = "O tipo deve ser 'c' para crédito ou 'd' para débito")
+    @Pattern(regexp = "[cdCD]", message = "O tipo deve ser 'c' para crédito ou 'd' para débito")
     String tipo,
 
     @JsonProperty("descricao")

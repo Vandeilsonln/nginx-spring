@@ -1,8 +1,7 @@
 package com.example.teste.controller;
 
 import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
-import com.example.teste.dto.response.ClienteTransacaoResponseDTO;
-import com.example.teste.entity.ClienteEntity;
+import com.example.teste.dto.response.TransacaoResponseDTO;
 import com.example.teste.entity.TransacaoEntity;
 import com.example.teste.service.TransacaoServiceImpl;
 import jakarta.validation.Valid;
@@ -25,7 +24,7 @@ public class TransacaoController {
     private TransacaoServiceImpl transacaoServiceImpl;
 
     @PostMapping("{id}/transacoes")
-    public ResponseEntity<ClienteTransacaoResponseDTO> criarTransacao(
+    public ResponseEntity<TransacaoResponseDTO> criarTransacao(
         @PathVariable final String id, @Valid @RequestBody ClienteTransacaoRequestDTO requestDTO) {
 
         var response = transacaoServiceImpl.criarTransacao(id, requestDTO);
