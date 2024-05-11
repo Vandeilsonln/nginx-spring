@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -61,11 +60,6 @@ public class TransacaoServiceImpl implements TransacaoService {
 
     private boolean novoSaldoExtrapolateLimite(int novoSaldo) {
         return novoSaldo < 0;
-    }
-
-    @Override
-    public List<TransacaoEntity> todosClientes() {
-        return transacaoRepository.findAll();
     }
 
 }

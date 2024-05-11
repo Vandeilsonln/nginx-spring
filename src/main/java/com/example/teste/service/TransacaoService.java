@@ -10,6 +10,4 @@ public interface TransacaoService {
 
     TransacaoResponseDTO criarTransacao(final String id, final ClienteTransacaoRequestDTO requestDTO);
 
-    List<TransacaoEntity> todosClientes();
-
 }
