@@ -49,4 +49,8 @@ public class ClienteEntity {
         return limite;
     }
 
+    public void setSaldo(Integer saldo) {
+        this.saldo = saldo;
+    }
+
 }

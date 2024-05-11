@@ -3,6 +3,7 @@ package com.example.teste.controller;
 import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
 import com.example.teste.dto.response.TransacaoResponseDTO;
 import com.example.teste.entity.TransacaoEntity;
+import com.example.teste.service.TransacaoService;
 import com.example.teste.service.TransacaoServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
 public class TransacaoController {
 
     @Autowired
-    private TransacaoServiceImpl transacaoServiceImpl;
+    private TransacaoService transacaoServiceImpl;
 
     @PostMapping("{id}/transacoes")
     public ResponseEntity<TransacaoResponseDTO> criarTransacao(
