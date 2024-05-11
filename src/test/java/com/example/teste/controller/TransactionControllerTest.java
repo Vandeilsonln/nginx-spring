@@ -1,7 +1,7 @@
 package com.example.teste.controller;
 
 import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
-import com.example.teste.dto.response.ClienteTransacaoResponseDTO;
+import com.example.teste.dto.response.TransacaoResponseDTO;
 import com.example.teste.exception.ApiErrorResponse;
 import com.example.teste.exception.ApiExceptionHandler;
 import com.example.teste.service.TransacaoServiceImpl;
@@ -41,7 +41,7 @@ class TransactionControllerTest {
     TransacaoController controller;
 
     private ClienteTransacaoRequestDTO requestDTO;
-    private ClienteTransacaoResponseDTO responseDTO;
+    private TransacaoResponseDTO responseDTO;
     private ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
@@ -51,7 +51,7 @@ class TransactionControllerTest {
     @Test
     void criarTransacao_comPayloadCorreto_deveRetornar200Ok() throws Exception {
         requestDTO = new ClienteTransacaoRequestDTO(200, "c", "descrição");
-        responseDTO = new ClienteTransacaoResponseDTO(200, 200);
+        responseDTO = new TransacaoResponseDTO(200, 200);
 
         when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
 
@@ -68,7 +68,7 @@ class TransactionControllerTest {
         "2, c, verylongedescription"})
     void criarTransacao_comPayloadInCorreto_deveRetornar422(Integer valor, String tipo, String descricao) throws Exception {
         requestDTO = new ClienteTransacaoRequestDTO(valor, tipo, descricao);
-        responseDTO = new ClienteTransacaoResponseDTO(200, 200);
+        responseDTO = new TransacaoResponseDTO(200, 200);
 
         when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
 
