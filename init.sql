@@ -15,11 +15,11 @@ CREATE TABLE transacoes (
 
 INSERT INTO clientes (nome, limite, saldo)
 VALUES
-    ('John', 100000, 0),
-    ('Alice', 80000, 0),
-    ('Bob', 1000000, 0),
-    ('Emily', 10000000, 0),
-    ('Michael', 500000, 0);
+    ('John', 100000, 5000),
+    ('Alice', 80000, 8000),
+    ('Bob', 1000000, 25000),
+    ('Emily', 10000000, 7850),
+    ('Michael', 500000, 9870);
 
 INSERT INTO transacoes(cliente_id, valor, tipo, realizada_em)
 VALUES

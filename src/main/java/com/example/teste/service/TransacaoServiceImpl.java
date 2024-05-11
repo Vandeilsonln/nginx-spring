@@ -10,6 +10,7 @@ import com.example.teste.repository.ClienteRepository;
 import com.example.teste.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,7 @@ public class TransacaoServiceImpl implements TransacaoService {
     private TransacaoRepository transacaoRepository;
 
     @Override
+    @Transactional
     public TransacaoResponseDTO criarTransacao(final String id, final ClienteTransacaoRequestDTO requestDTO) {
         var cliente = getCliente(id);
 
