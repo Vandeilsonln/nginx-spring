@@ -1,6 +1,6 @@
 package com.example.teste.service;
 
-import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
+import com.example.teste.dto.request.CreateTransactionRequestDTO;
 import com.example.teste.dto.response.TransacaoResponseDTO;
 import com.example.teste.entity.ClienteEntity;
 import com.example.teste.entity.TransacaoEntity;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 @Service
-public class TransacaoServiceImpl implements TransacaoService {
+public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -26,7 +26,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 
     @Override
     @Transactional
-    public TransacaoResponseDTO criarTransacao(final String id, final ClienteTransacaoRequestDTO requestDTO) {
+    public TransacaoResponseDTO createTransaction(final String id, final CreateTransactionRequestDTO requestDTO) {
         var cliente = getCliente(id);
 
         if (isDebito(requestDTO)) {
@@ -34,7 +34,7 @@ public class TransacaoServiceImpl implements TransacaoService {
             cliente.setSaldo(novoSaldo);
             clienteRepository.updateSaldo(novoSaldo, Integer.valueOf(id));
         }
-        transacaoRepository.save(new TransacaoEntity(cliente, requestDTO.amount(), requestDTO.tipo(), LocalDateTime.now()));
+        transacaoRepository.save(new TransacaoEntity(cliente, requestDTO.amount(), requestDTO.type(), LocalDateTime.now()));
         return new TransacaoResponseDTO(cliente.getLimite(), cliente.getSaldo());
     }
 
@@ -42,11 +42,11 @@ public class TransacaoServiceImpl implements TransacaoService {
         return clienteRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    private boolean isDebito(ClienteTransacaoRequestDTO requestDTO) {
-        return "D".equals(requestDTO.tipo().toUpperCase(Locale.ROOT));
+    private boolean isDebito(CreateTransactionRequestDTO requestDTO) {
+        return "D".equals(requestDTO.type().toUpperCase(Locale.ROOT));
     }
 
-    private int processarDebito(ClienteTransacaoRequestDTO requestDTO, ClienteEntity cliente) {
+    private int processarDebito(CreateTransactionRequestDTO requestDTO, ClienteEntity cliente) {
         var novoSaldo = calculateNovoSaldo(requestDTO, cliente);
         if (novoSaldoExtrapolateLimite(novoSaldo)) {
             throw new LimiteEstouradoException();
@@ -54,7 +54,7 @@ public class TransacaoServiceImpl implements TransacaoService {
         return novoSaldo;
     }
 
-    private int calculateNovoSaldo(ClienteTransacaoRequestDTO requestDTO, ClienteEntity cliente) {
+    private int calculateNovoSaldo(CreateTransactionRequestDTO requestDTO, ClienteEntity cliente) {
         return cliente.getSaldo() - requestDTO.amount();
     }
 

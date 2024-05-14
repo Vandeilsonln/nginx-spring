@@ -1,10 +1,10 @@
 package com.example.teste.controller;
 
-import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
+import com.example.teste.dto.request.CreateTransactionRequestDTO;
 import com.example.teste.dto.response.TransacaoResponseDTO;
 import com.example.teste.exception.ApiErrorResponse;
 import com.example.teste.exception.ApiExceptionHandler;
-import com.example.teste.service.TransacaoServiceImpl;
+import com.example.teste.service.TransactionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,14 +35,15 @@ class TransactionControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    TransacaoServiceImpl service;
+    TransactionServiceImpl service;
 
     @InjectMocks
     TransacaoController controller;
 
-    private ClienteTransacaoRequestDTO requestDTO;
+    private CreateTransactionRequestDTO requestDTO;
     private TransacaoResponseDTO responseDTO;
     private ObjectMapper mapper = new ObjectMapper();
+    private final String CREATE_TRANSACTION_URL = "/transaction/{id}";
 
     @BeforeEach
     public void setUp() {
@@ -50,12 +51,12 @@ class TransactionControllerTest {
 
     @Test
     void criarTransacao_comPayloadCorreto_deveRetornar200Ok() throws Exception {
-        requestDTO = new ClienteTransacaoRequestDTO(200, "c", "descrição");
+        requestDTO = new CreateTransactionRequestDTO(200, "c", "descrição");
         responseDTO = new TransacaoResponseDTO(200, 200);
 
-        when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
+        when(service.createTransaction("1", requestDTO)).thenReturn(responseDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/clientes/{id}/transacoes", "1")
+        mockMvc.perform(MockMvcRequestBuilders.post(CREATE_TRANSACTION_URL, "1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(requestDTO)))
             .andExpect(MockMvcResultMatchers.status().isOk());
@@ -67,12 +68,12 @@ class TransactionControllerTest {
         "2, cd, desc",
         "2, c, verylongedescription"})
     void criarTransacao_comPayloadInCorreto_deveRetornar422(Integer valor, String tipo, String descricao) throws Exception {
-        requestDTO = new ClienteTransacaoRequestDTO(valor, tipo, descricao);
+        requestDTO = new CreateTransactionRequestDTO(valor, tipo, descricao);
         responseDTO = new TransacaoResponseDTO(200, 200);
 
-        when(service.criarTransacao("1", requestDTO)).thenReturn(responseDTO);
+        when(service.createTransaction("1", requestDTO)).thenReturn(responseDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/clientes/{id}/transacoes", "1")
+        mockMvc.perform(MockMvcRequestBuilders.post(CREATE_TRANSACTION_URL, "1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(requestDTO)))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());

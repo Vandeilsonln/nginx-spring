@@ -1,6 +1,6 @@
 package com.example.teste.exception;
 
-import com.example.teste.dto.request.ClienteTransacaoRequestDTO;
+import com.example.teste.dto.request.CreateTransactionRequestDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach((error) -> {
-            String fieldName = getFieldName(error.getField(), ClienteTransacaoRequestDTO.class);
+            String fieldName = getFieldName(error.getField(), CreateTransactionRequestDTO.class);
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
