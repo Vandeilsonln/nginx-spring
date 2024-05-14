@@ -1,6 +1,8 @@
 package com.example.teste.service;
 
+import com.example.teste.dto.response.GetTransactionsResponseDTO;
+
 public interface ConsumerService {
 
-    Object getTransactions(String id);
+    GetTransactionsResponseDTO getTransactions(String id);
 }

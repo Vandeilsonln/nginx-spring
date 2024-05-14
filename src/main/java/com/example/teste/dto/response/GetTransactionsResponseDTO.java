@@ -13,7 +13,7 @@ public record GetTransactionsResponseDTO(
     public record BalanceDTO(
         @JsonProperty("total") int total,
         @JsonProperty("balance_date") LocalDateTime date,
-        @JsonProperty("limit") int limite) {
+        @JsonProperty("limit") int limit) {
     }
 
     public record TransactionDataDTO(

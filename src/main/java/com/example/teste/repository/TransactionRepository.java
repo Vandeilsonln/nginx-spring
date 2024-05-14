@@ -1,11 +1,9 @@
 package com.example.teste.repository;
 
-import com.example.teste.entity.TransacaoEntity;
+import com.example.teste.entity.TransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface TransacaoRepository extends JpaRepository<TransacaoEntity, Integer> {
+public interface TransactionRepository extends JpaRepository<TransactionEntity, Integer> {
 }

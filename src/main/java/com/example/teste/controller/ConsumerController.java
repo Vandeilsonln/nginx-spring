@@ -1,5 +1,6 @@
 package com.example.teste.controller;
 
+import com.example.teste.dto.response.GetTransactionsResponseDTO;
 import com.example.teste.service.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ public class ConsumerController {
     private ConsumerService consumerService;
 
     @GetMapping("{id}/transactions-history")
-    public ResponseEntity<?> getTransactions(@PathVariable final String id) {
+    public ResponseEntity<GetTransactionsResponseDTO> getTransactions(@PathVariable final String id) {
         return ResponseEntity.ok(consumerService.getTransactions(id));
     }
 

@@ -1,7 +1,7 @@
 package com.example.teste.controller;
 
 import com.example.teste.dto.request.CreateTransactionRequestDTO;
-import com.example.teste.dto.response.TransacaoResponseDTO;
+import com.example.teste.dto.response.TransactionResponseDTO;
 import com.example.teste.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class TransacaoController {
     private TransactionService transactionServiceImpl;
 
     @PostMapping("{id}")
-    public ResponseEntity<TransacaoResponseDTO> createTransaction(
+    public ResponseEntity<TransactionResponseDTO> createTransaction(
         @PathVariable final String id, @Valid @RequestBody CreateTransactionRequestDTO requestDTO) {
 
         var response = transactionServiceImpl.createTransaction(id, requestDTO);
