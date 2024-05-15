@@ -6,7 +6,7 @@ import com.example.teste.entity.CustomerEntity;
 import com.example.teste.entity.TransactionEntity;
 import com.example.teste.exception.InvalidBalanceValueException;
 import com.example.teste.exception.UserNotFoundException;
-import com.example.teste.repository.ConsumerRepository;
+import com.example.teste.repository.CustomerRepository;
 import com.example.teste.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Locale;
 public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
-    private ConsumerRepository consumerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -32,14 +32,14 @@ public class TransactionServiceImpl implements TransactionService {
         if (isDebit(requestDTO)) {
             var newBalance = processDebit(requestDTO, customer);
             customer.setBalance(newBalance);
-            consumerRepository.updateBalance(newBalance, Integer.valueOf(id));
+            customerRepository.updateBalance(newBalance, Integer.valueOf(id));
         }
         transactionRepository.save(new TransactionEntity(customer, requestDTO.amount(), requestDTO.type(), LocalDateTime.now()));
         return new TransactionResponseDTO(customer.getLimits(), customer.getBalance());
     }
 
     private CustomerEntity getCustomer(String id) {
-        return consumerRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new UserNotFoundException(id));
+        return customerRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private boolean isDebit(CreateTransactionRequestDTO requestDTO) {

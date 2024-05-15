@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ConsumerRepository extends JpaRepository<CustomerEntity, Integer> {
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Integer> {
 
     Optional<CustomerEntity> findById(Integer id);
 

@@ -5,7 +5,7 @@ import com.example.teste.dto.response.TransactionResponseDTO;
 import com.example.teste.entity.CustomerEntity;
 import com.example.teste.exception.InvalidBalanceValueException;
 import com.example.teste.exception.UserNotFoundException;
-import com.example.teste.repository.ConsumerRepository;
+import com.example.teste.repository.CustomerRepository;
 import com.example.teste.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class TransactionServiceImplTest {
     private TransactionRepository transactionRepository;
 
     @Mock
-    private ConsumerRepository consumerRepository;
+    private CustomerRepository customerRepository;
 
     @InjectMocks
     private TransactionServiceImpl service;
@@ -39,7 +39,7 @@ public class TransactionServiceImplTest {
     void whenCreateTransaction_withNonExistentClient_shouldThrowException() {
         requestDTO = new CreateTransactionRequestDTO(100, "D", "Default");
 
-        when(consumerRepository.findById(id)).thenReturn(Optional.empty());
+        when(customerRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> {
             service.createTransaction(String.valueOf(id), requestDTO);
@@ -51,7 +51,7 @@ public class TransactionServiceImplTest {
         requestDTO = new CreateTransactionRequestDTO(1500, "D", "Default");
         customerEntity = new CustomerEntity("Vandeilson", 1499, 2000);
 
-        when(consumerRepository.findById(id)).thenReturn(Optional.of(customerEntity));
+        when(customerRepository.findById(id)).thenReturn(Optional.of(customerEntity));
 
         assertThrows(InvalidBalanceValueException.class, () -> {
             service.createTransaction(String.valueOf(id), requestDTO);
@@ -63,7 +63,7 @@ public class TransactionServiceImplTest {
         requestDTO = new CreateTransactionRequestDTO(150, "D", "Default");
         customerEntity = new CustomerEntity("Vandeilson", 1500, 2000);
 
-        when(consumerRepository.findById(id)).thenReturn(Optional.of(customerEntity));
+        when(customerRepository.findById(id)).thenReturn(Optional.of(customerEntity));
 
         var expectedResponse = new TransactionResponseDTO(2000, 1350);
         var actualResponse = service.createTransaction(String.valueOf(id), requestDTO);

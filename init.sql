@@ -9,7 +9,7 @@ CREATE TABLE transactions (
     id SERIAL PRIMARY KEY,
     customer_id INTEGER REFERENCES customers(id),
     amount INTEGER NOT NULL,
-    type VARCHAR(10) not null,
+    type VARCHAR(1) not null,
     created_at TIMESTAMP NOT NULL
 );
 
@@ -23,13 +23,13 @@ VALUES
 
 INSERT INTO transactions(customer_id, amount, type, created_at)
 VALUES
-    (1, 100, 'Message 1', CURRENT_TIMESTAMP),
-    (2, 150, 'Message 2', CURRENT_TIMESTAMP),
-    (3, 200, 'Message 1', CURRENT_TIMESTAMP),
-    (4, 250, 'Message 2', CURRENT_TIMESTAMP),
-    (5, 300, 'Message 1', CURRENT_TIMESTAMP),
-    (1, 200, 'Message 2', CURRENT_TIMESTAMP),
-    (2, 250, 'Message 1', CURRENT_TIMESTAMP),
-    (3, 300, 'Message 2', CURRENT_TIMESTAMP),
-    (4, 350, 'Message 1', CURRENT_TIMESTAMP),
-    (5, 400, 'Message 2', CURRENT_TIMESTAMP);
+    (1, 100, 'C', CURRENT_TIMESTAMP),
+    (2, 150, 'D', CURRENT_TIMESTAMP),
+    (3, 200, 'C', CURRENT_TIMESTAMP),
+    (4, 250, 'D', CURRENT_TIMESTAMP),
+    (5, 300, 'C', CURRENT_TIMESTAMP),
+    (1, 200, 'D', CURRENT_TIMESTAMP),
+    (2, 250, 'C', CURRENT_TIMESTAMP),
+    (3, 300, 'D', CURRENT_TIMESTAMP),
+    (4, 350, 'C', CURRENT_TIMESTAMP),
+    (5, 400, 'D', CURRENT_TIMESTAMP);

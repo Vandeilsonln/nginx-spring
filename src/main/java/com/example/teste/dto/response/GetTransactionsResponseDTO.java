@@ -19,7 +19,6 @@ public record GetTransactionsResponseDTO(
     public record TransactionDataDTO(
         @JsonProperty("value") int valor,
         @JsonProperty("type") String tipo,
-        @JsonProperty("description") String descricao,
         @JsonProperty("created_at") LocalDateTime createdAt) {
     }
 
