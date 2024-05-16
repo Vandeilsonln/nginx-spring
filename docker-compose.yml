@@ -1,10 +1,11 @@
 version: '3.8'
 
 services:
-    my-app1:
+    my-app1: &default-app
         build:
             context: .
             dockerfile: Dockerfile
+        image: vandeilsonln/nginx-study
         networks:
             - my-network
         depends_on:
@@ -16,18 +17,7 @@ services:
                     memory: "225MB"
 
     my-app2:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        networks:
-            - my-network
-        depends_on:
-            - db
-        deploy:
-            resources:
-                limits:
-                    cpus: "0.7"
-                    memory: "225MB"
+        <<: *default-app
 
     nginx:
         image: nginx:latest
@@ -53,7 +43,7 @@ services:
         environment:
             - POSTGRES_PASSWORD=123
             - POSTGRES_USER=admin
-            - POSTGRES_DB=rinha
+            - POSTGRES_DB=nginx-app
         ports:
             - "5432:5432"
         volumes:

@@ -1,6 +1,6 @@
 package com.example.teste.repository;
 
-import com.example.teste.entity.ClienteEntity;
+import com.example.teste.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<ClienteEntity, Integer> {
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Integer> {
 
-    Optional<ClienteEntity> findById(Integer id);
+    Optional<CustomerEntity> findById(Integer id);
 
     @Modifying(flushAutomatically = true)
-    @Query(nativeQuery = true, value = "UPDATE clientes SET saldo = :saldo WHERE id = :id")
-    void updateSaldo(@Param("saldo") Integer saldo, @Param("id") Integer id);
+    @Query(nativeQuery = true, value = "UPDATE customers SET balance = :balance WHERE id = :id")
+    void updateBalance(@Param("balance") Integer balance, @Param("id") Integer id);
 
 
 }
