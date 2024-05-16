@@ -4,6 +4,7 @@ import com.example.teste.dto.request.CreateTransactionRequestDTO;
 import com.example.teste.dto.response.TransactionResponseDTO;
 import com.example.teste.exception.ApiErrorResponse;
 import com.example.teste.exception.ApiExceptionHandler;
+import com.example.teste.exception.InvalidBalanceValueException;
 import com.example.teste.service.TransactionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,7 +53,7 @@ class TransactionControllerTest {
 
     @Test
     void criarTransacao_comPayloadCorreto_deveRetornar200Ok() throws Exception {
-        requestDTO = new CreateTransactionRequestDTO(200, "c", "descrição");
+        requestDTO = new CreateTransactionRequestDTO(200, "c");
         responseDTO = new TransactionResponseDTO(200, 200);
 
         when(service.createTransaction("1", requestDTO)).thenReturn(responseDTO);
@@ -64,11 +66,11 @@ class TransactionControllerTest {
 
     @ParameterizedTest
     @CsvSource(
-        {"-2, c, desc",
-        "2, cd, desc",
-        "2, c, verylongedescription"})
-    void criarTransacao_comPayloadInCorreto_deveRetornar422(Integer valor, String tipo, String descricao) throws Exception {
-        requestDTO = new CreateTransactionRequestDTO(valor, tipo, descricao);
+        {"-2, c",
+        "2, cd",
+        "2, c"})
+    void criarTransacao_comPayloadInCorreto_deveRetornar422(Integer valor, String tipo) throws Exception {
+        requestDTO = new CreateTransactionRequestDTO(valor, tipo);
         responseDTO = new TransactionResponseDTO(200, 200);
 
         when(service.createTransaction("1", requestDTO)).thenReturn(responseDTO);
@@ -77,6 +79,20 @@ class TransactionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(requestDTO)))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    void criarTransacao_comValorMaior_deveRetornar422() throws Exception {
+        requestDTO = new CreateTransactionRequestDTO(400, "D");
+        responseDTO = new TransactionResponseDTO(200, 200);
+
+        when(service.createTransaction("1", requestDTO)).thenThrow(new InvalidBalanceValueException());
+
+        mockMvc.perform(MockMvcRequestBuilders.post(CREATE_TRANSACTION_URL, "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(requestDTO)))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.type", equalTo("not enough funds")));
     }
 
 

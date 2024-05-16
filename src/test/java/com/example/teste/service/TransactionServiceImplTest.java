@@ -37,7 +37,7 @@ public class TransactionServiceImplTest {
 
     @Test
     void whenCreateTransaction_withNonExistentClient_shouldThrowException() {
-        requestDTO = new CreateTransactionRequestDTO(100, "D", "Default");
+        requestDTO = new CreateTransactionRequestDTO(100, "D");
 
         when(customerRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -48,7 +48,7 @@ public class TransactionServiceImplTest {
 
     @Test
     void whenCreateTransacion_withAmountBiggerThanSaldo_shouldThrowException() {
-        requestDTO = new CreateTransactionRequestDTO(1500, "D", "Default");
+        requestDTO = new CreateTransactionRequestDTO(1500, "D");
         customerEntity = new CustomerEntity("Vandeilson", 1499, 2000);
 
         when(customerRepository.findById(id)).thenReturn(Optional.of(customerEntity));
@@ -60,7 +60,7 @@ public class TransactionServiceImplTest {
 
     @Test
     void whenCreateTransaction_withValidInput_shouldReturnClienteWithNewSaldo() {
-        requestDTO = new CreateTransactionRequestDTO(150, "D", "Default");
+        requestDTO = new CreateTransactionRequestDTO(150, "D");
         customerEntity = new CustomerEntity("Vandeilson", 1500, 2000);
 
         when(customerRepository.findById(id)).thenReturn(Optional.of(customerEntity));

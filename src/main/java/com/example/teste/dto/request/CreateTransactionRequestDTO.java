@@ -15,12 +15,8 @@ public record CreateTransactionRequestDTO(
     @JsonProperty("type")
     @NotNull(message = "type can not be null")
     @Pattern(regexp = "[cdCD]", message = "type must be either D (debit) or C (credit)")
-    String type,
+    String type
 
-    @JsonProperty("description")
-    @NotNull(message = "description can not be null")
-    @Size(min = 1, max = 10, message = "description length must be between 1 and 10 characters")
-    String description
 ) {
 
 }
