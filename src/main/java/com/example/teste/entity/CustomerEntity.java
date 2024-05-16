@@ -30,6 +30,13 @@ public class CustomerEntity {
         this.limits = limits;
     }
 
+    public CustomerEntity(Integer id, String name, Integer balance, Integer limits) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.limits = limits;
+    }
+
     public Integer getId() {
         return id;
     }
