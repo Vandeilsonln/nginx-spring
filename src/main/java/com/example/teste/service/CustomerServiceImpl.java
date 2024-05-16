@@ -1,6 +1,7 @@
 package com.example.teste.service;
 
 import com.example.teste.dto.response.GetTransactionsResponseDTO;
+import com.example.teste.entity.CustomerEntity;
 import com.example.teste.entity.TransactionEntity;
 import com.example.teste.exception.UserNotFoundException;
 import com.example.teste.repository.CustomerRepository;
@@ -23,13 +24,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public GetTransactionsResponseDTO getTransactions(String id) {
-        var consumer = customerRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new UserNotFoundException(id));
-        var transactions = transactionRepository.findByCustomerId(consumer.getId())
+        var customer = getCustomer(id);
+        var transactions = transactionRepository.findByCustomerId(customer.getId())
                 .stream()
                 .map(this::toTransactionDataDTO)
                 .collect(Collectors.toList());
 
-        return new GetTransactionsResponseDTO(new GetTransactionsResponseDTO.BalanceDTO(consumer.getBalance(), LocalDateTime.now(), consumer.getLimits()), transactions);
+        return new GetTransactionsResponseDTO(
+                new GetTransactionsResponseDTO.BalanceDTO(
+                        customer.getBalance(), LocalDateTime.now(), customer.getLimits()),
+                transactions);
+    }
+
+    private CustomerEntity getCustomer(String id) {
+        return customerRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private GetTransactionsResponseDTO.TransactionDataDTO toTransactionDataDTO(TransactionEntity entity) {

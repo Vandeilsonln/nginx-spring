@@ -2,6 +2,8 @@ package com.example.teste.exception;
 
 import com.example.teste.dto.request.CreateTransactionRequestDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,6 +21,8 @@ import static com.example.teste.exception.ApiErrorType.PAYLOAD_INVALID;
 @ControllerAdvice
 public class ApiExceptionHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -31,10 +35,22 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Object> handleBindExceptions(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ApiErrorResponse> handleBindExceptions(HttpMessageNotReadableException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(new ApiErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), MALFORMED_VALUE_TYPE.name(), errors));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        logError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorResponse(1, ex.getMessage(), Map.of()));
+    }
+
+    @ExceptionHandler(InvalidBalanceValueException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidBalanceValueException(InvalidBalanceValueException ex) {
+        logError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiErrorResponse(2, "not enough funds", Map.of()));
     }
 
     private String getFieldName(String fieldName, Class clazz) {
@@ -45,9 +61,13 @@ public class ApiExceptionHandler {
                 return jsonPropertyAnnotation.value();
             }
         } catch (NoSuchFieldException | SecurityException e) {
-            // Log the exception or handle it as needed
+            LOGGER.error(e.getMessage());
         }
         return fieldName;
+    }
+
+    private void logError(String message) {
+        LOGGER.error(message);
     }
 }
 
