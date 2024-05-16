@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        #image: vandeilsonln/nginx-study
+        image: vandeilsonln/nginx-study
         networks:
             - my-network
         depends_on:
