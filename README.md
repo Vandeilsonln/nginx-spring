@@ -67,8 +67,22 @@ Finally, build and start the services using `docker-compose up -d --build`
 
 As a final step, read the API section to check how to use it.
 
-# 6 - API Usage and Contract
-The entrypoint is the Nginx at `localhost:9999`
+# 6 - API Usage
+The entrypoint is the Nginx at `localhost:9999`. The curl bellow already include a authenticated user
 
 #### - Create Transaction
-URI: 
+```curl
+curl --location --request POST 'localhost:9999/transaction/2' \
+--header 'Authorization: Basic dXNlcjE6MTIz' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "amount": 2204,
+    "type": "D"
+}'
+```
+
+#### - Get all transaction from consumer
+```curl
+curl --location --request GET 'localhost:9999/customer/2/transactions-history' \
+--header 'Authorization: Basic dXNlcjE6MTIz'
+```
