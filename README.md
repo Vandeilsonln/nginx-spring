@@ -6,12 +6,12 @@ The setup uses Docker and Docker Compose to containerize the application to mana
 and it also contains the Postgres initialization file.
 
 ## Table of Contents
-- [Nginx Configuration](#nginx-configuration)
-- [Docker Compose Setup](#docker-compose-setup)
-- [Dockerfile](#dockerfile)
-- [Database Initialization](#database-initialization)
-- [How to Run](#how-to-run)
-- [Conclusion](#conclusion)
+- 1 - Nginx Configuration
+- 2 - Dockerfile
+- 3 - Docker Compose
+- 4 - Postgres Initialization
+- 5 - How to run
+- 6 - API Usage
 
 ## 1 -  Nginx Configuration
 The `nginx.conf` file holds the Nginx configurations:
