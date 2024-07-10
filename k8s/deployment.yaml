@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database
+  name: db
 spec:
   replicas: 1
   selector:
@@ -11,21 +11,21 @@ spec:
       app: db
   template:
     metadata:
-      labels: 
+      labels:
         app: db
     spec:
       containers:
         - name: db
           image: postgres:13.1
           env:
-          - name: POSTGRES_PASSWORD
-            value: "123"
-          - name: POSTGRES_USER
-            value: admin
-          - name: POSTGRES_DB
-            value: nginx-app
+            - name: POSTGRES_PASSWORD
+              value: "123"
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_DB
+              value: nginx-app
           ports:
-            - containerPort: 5432 
+            - containerPort: 5432
 ---
 # Service
 apiVersion: v1
