@@ -1,6 +1,6 @@
 name: deployment
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   push-to-hub:
