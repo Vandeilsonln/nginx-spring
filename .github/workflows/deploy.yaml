@@ -1,6 +1,15 @@
 name: deployment
 on:
   workflow_call:
+    secrets:
+      DOCKER_USERNAME:
+          required: true
+      DOCKER_TOKEN:
+          required: true
+      AWS_ACCESS_KEY_ID:
+          required: true
+      AWS_SECRET_ACCESS_KEY:
+          required: true
 
 jobs:
   push-to-hub:
