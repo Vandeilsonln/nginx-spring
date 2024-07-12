@@ -2,6 +2,7 @@ name: deployment
 on:
   push:
     branches: ["master"]
+  workflow_dispatch:
 
 jobs:
   push-to-hub:
