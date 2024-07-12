@@ -53,7 +53,7 @@ class TransactionControllerTest {
 
     @Test
     void criarTransacao_comPayloadCorreto_deveRetornar200Ok() throws Exception {
-        requestDTO = new CreateTransactionRequestDTO(200, "c");
+        requestDTO = new CreateTransactionRequestDTO(200, "C");
         responseDTO = new TransactionResponseDTO(200, 200);
 
         when(service.createTransaction("1", requestDTO)).thenReturn(responseDTO);
