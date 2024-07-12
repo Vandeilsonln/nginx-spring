@@ -14,7 +14,7 @@ public record CreateTransactionRequestDTO(
 
     @JsonProperty("type")
     @NotNull(message = "type can not be null")
-    @Pattern(regexp = "[cdCD]", message = "type must be either D (debit) or C (credit)")
+    @Pattern(regexp = "[CD]", message = "type must be either D (debit) or C (credit)")
     String type
 
 ) {

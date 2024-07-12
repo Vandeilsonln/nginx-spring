@@ -1,0 +1,75 @@
+# Postgres Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: postgres:13.1
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "123"
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_DB
+              value: nginx-app
+          ports:
+            - containerPort: 5432
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  selector:
+    app: db
+  ports:
+    - port: 5432
+---
+# Application Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-nginx
+  template:
+    metadata:
+      labels: 
+        app: app-nginx
+    spec:
+      containers:
+        - name: app-nginx
+          image: vandeilsonln/nginx-study:latest
+          ports:
+            - containerPort: 8080 
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-nginx
+spec:
+  selector:
+    app: app-nginx
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
+  type: NodePort
