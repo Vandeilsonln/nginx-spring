@@ -28,7 +28,7 @@ jobs:
 
   CD:
     runs-on: ubuntu-latest
-    needs: [push-to-hub:]
+    needs: [push-to-hub]
     steps:
       - name: Obtendo o código
         uses: actions/checkout@v3
