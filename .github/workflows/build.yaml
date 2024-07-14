@@ -46,6 +46,7 @@ jobs:
                 run: echo "mock para evitar de demorar"
     
     push-to-hub:
+        needs: unit-test
         runs-on: ubuntu-latest
         steps:
         - name: Checkout do código conte
@@ -68,7 +69,7 @@ jobs:
                 vandeilsonln/nginx-study:latest
 
     deploy:
-        needs: [unit-test]
+        needs: push-to-hub
         uses: ./.github/workflows/deploy.yaml
         #secrets:
             #DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
