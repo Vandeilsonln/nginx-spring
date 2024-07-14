@@ -1,11 +1,15 @@
 name: build-with-maven
 on:
     workflow_dispatch:
-    pull_request:
-        branches: [master]
     push:
-        branches:
-            - master
+        branches: ["master"]
+        paths-ignore:
+            - k8s/*
+        #pull_request:
+    #    branches: [master]
+    #push:
+    #    branches:
+    #        - master
 
 jobs:
     generate-jar:
@@ -47,5 +51,5 @@ jobs:
         secrets:
             DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
             DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
