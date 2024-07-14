@@ -56,7 +56,7 @@ spec:
     spec:
       containers:
         - name: app-nginx
-          image: vandeilsonln/nginx-study:v10
+          image: vandeilsonln/nsingx-study:v11
           ports:
             - containerPort: 8080 
 ---
