@@ -17,6 +17,8 @@ jobs:
           git add .
           git commit -m "new tag - ${{github.run_number}}"
           git push origin
+          
+      # ABAIXO SEGUE PARA DEPLOYAR DIRETAMENTE NO K8S NA AWS
       # - name: Configure AWS Credentials
       #   uses: aws-actions/configure-aws-credentials@v4
       #   with:
